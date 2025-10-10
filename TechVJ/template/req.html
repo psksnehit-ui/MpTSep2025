@@ -10,14 +10,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --primary-color: #0ff;
+      --primary-rgb: 0, 255, 255;
+      --bg-color: #0a0a0f;
+      --card-bg: rgba(20, 20, 40, 0.7);
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
-      background: #0a0a0f;
+      background: var(--bg-color);
       color: #e0e0e0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
+    
     body::before {
       content: "";
       position: fixed;
@@ -30,11 +39,13 @@
       animation: gradientMove 15s ease infinite;
       z-index: -2;
     }
+    
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+    
     body::after {
       content: "";
       position: fixed;
@@ -46,30 +57,34 @@
       backdrop-filter: blur(5px);
       z-index: -1;
     }
+    
     header {
       background: rgba(20, 20, 40, 0.8);
       padding: 15px 30px;
       text-align: left;
-      border-bottom: 2px solid #0ff;
-      box-shadow: 0 2px 15px rgba(0,255,255,0.3);
+      border-bottom: 2px solid var(--primary-color);
+      box-shadow: 0 2px 15px rgba(var(--primary-rgb), 0.3);
     }
+    
     .neon-text {
       font-family: 'Orbitron', sans-serif;
-      color: #0ff;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+      color: var(--primary-color);
+      text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
     }
+    
     .glass-card {
-      background: rgba(20, 20, 40, 0.7);
-      border: 2px solid rgba(0, 255, 255, 0.5);
+      background: var(--card-bg);
+      border: 2px solid rgba(var(--primary-rgb), 0.5);
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3);
       backdrop-filter: blur(10px);
       padding: 2rem;
     }
+    
     .neon-btn {
       background: transparent;
-      border: 2px solid #0ff;
-      color: #0ff;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
       font-weight: bold;
       transition: all 0.3s;
       border-radius: 30px;
@@ -81,51 +96,160 @@
       text-decoration: none;
       cursor: pointer;
     }
+    
     .neon-btn:hover {
-      background: #0ff;
+      background: var(--primary-color);
       color: #000;
-      box-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+      box-shadow: 0 0 15px var(--primary-color), 0 0 30px var(--primary-color);
     }
+    
     .plyr--video {
       max-width: 100%;
       border-radius: 12px;
       overflow: hidden;
     }
+    
     .video-title-container {
       height: 1.5rem;
       overflow: hidden;
       max-width: 100%;
       margin-bottom: 12px;
     }
+    
     .video-title {
       display: inline-block;
-      color: #0ff;
+      color: var(--primary-color);
       font-weight: bold;
       font-size: 1.2rem;
       text-align: center;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+      text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
       position: relative;
       white-space: nowrap;
     }
+    
     @keyframes scrollTitle {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
+    
     .scroll-active {
       animation: scrollTitle linear infinite;
     }
+    
     footer {
       background: rgba(0,0,0,0.8);
       text-align: center;
       padding: 15px;
-      border-top: 2px solid #0ff;
-      box-shadow: 0 -2px 15px rgba(0,255,255,0.4);
+      border-top: 2px solid var(--primary-color);
+      box-shadow: 0 -2px 15px rgba(var(--primary-rgb), 0.4);
       font-size: 14px;
       margin-top: auto;
     }
+    
     .icon {
       width: 20px;
       height: 20px;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .toast.show {
+      opacity: 1;
+    }
+    
+    /* Loading spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(var(--primary-rgb), 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .glass-card {
+        padding: 1rem;
+      }
+      
+      .neon-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+      
+      .video-title {
+        font-size: 1rem;
+      }
+    }
+    
+    /* Dropdown improvements */
+    .dropdown-content {
+      transition: all 0.3s ease;
+    }
+    
+    /* Quality selector */
+    .quality-selector {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .quality-btn {
+      background: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .quality-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      width: 100%;
+      z-index: 10;
+      display: none;
+    }
+    
+    .quality-option {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .quality-option:hover {
+      background: rgba(var(--primary-rgb), 0.2);
+    }
+    
+    .quality-selector:hover .quality-options {
+      display: block;
     }
   </style>
 </head>
@@ -149,18 +273,33 @@
       </div>
 
       <!-- Video Player -->
-      <video id="player" playsinline controls class="justify-content-center align-items-center w-100 d-flex  flex-wrap">
-        <source src="{{file_url}}" type="video/mp4" />
-        <track kind="subtitles" label="English" srclang="en" src="{{file_url}}.vtt" default>
-      </video>
-	
-	
+      <div class="relative">
+        <video id="player" playsinline controls class="justify-content-center align-items-center w-100 d-flex flex-wrap">
+          <source src="{{file_url}}" type="video/mp4" />
+          <track kind="subtitles" label="English" srclang="en" src="{{file_url}}.vtt" default>
+        </video>
+        
+        <!-- Quality Selector (Placeholder) -->
+        <div class="quality-selector mt-4">
+          <button class="quality-btn">
+            <span>Quality</span>
+            <span>▼</span>
+          </button>
+          <div class="quality-options">
+            <div class="quality-option" data-quality="auto">Auto</div>
+            <div class="quality-option" data-quality="1080">1080p</div>
+            <div class="quality-option" data-quality="720">720p</div>
+            <div class="quality-option" data-quality="480">480p</div>
+          </div>
+        </div>
+      </div>
 	
       <!-- Download Button -->
       <div class="text-center mt-6">
-        <a onclick="lazyDownload()" class="neon-btn">
-          <img src="https://img.icons8.com/color/48/download--v1.png" class="icon"> Download Now
-        </a>
+        <button id="downloadBtn" class="neon-btn">
+          <img src="https://img.icons8.com/color/48/download--v1.png" class="icon"> 
+          <span id="downloadText">Download Now</span>
+        </button>
       </div>
 
       <!-- External Players -->
@@ -188,73 +327,65 @@
         </div>
       </div>
 
-	<!-- Telegram Dropdown -->
-	<div class="text-center mt-6">
-	  <button id="telegramBtn" class="neon-btn">
-		<img src="https://img.icons8.com/color/48/telegram-app.png" class="icon"> Join Telegram  ▼
-	  </button>
+      <!-- Telegram Dropdown -->
+      <div class="text-center mt-6">
+        <button id="telegramBtn" class="neon-btn">
+          <img src="https://img.icons8.com/color/48/telegram-app.png" class="icon"> Join Telegram  ▼
+        </button>
 
-	  <div id="telegramDropdown" class="hidden mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-md mx-auto">
+        <div id="telegramDropdown" class="hidden mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-md mx-auto">
+          <!-- Main Channel -->
+          <a href="https://t.me/MoviesPlusTelugu" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/telegram-app.png" class="icon"> Main Channel
+          </a>
 
-		<!-- Main Channel -->
-		<a href="https://t.me/MoviesPlusTelugu" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/telegram-app.png" class="icon"> Main Channel
-		</a>
+          <!-- Group -->
+          <a href="https://t.me/+o5kPr99SnjYwYzY1" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/groups.png" class="icon"> Group
+          </a>
 
-		<!-- Group -->
-		<a href="https://t.me/+o5kPr99SnjYwYzY1" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/groups.png" class="icon"> Group
-		</a>
+          <!-- Movies -->
+          <a href="https://t.me/+ZdGmNj8G_2tmNjZl" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/movie-projector.png" class="icon"> Movies
+          </a>
 
-		<!-- Movies -->
-		<a href="https://t.me/+ZdGmNj8G_2tmNjZl" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/movie-projector.png" class="icon"> Movies
-		</a>
+          <!-- Web Series -->
+          <a href="https://t.me/+PfQs5upYZBM2OGNl" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/film-reel.png" class="icon"> Web Series
+          </a>
 
-		<!-- Web Series -->
-		<a href="https://t.me/+PfQs5upYZBM2OGNl" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/film-reel.png" class="icon"> Web Series
-		</a>
+          <!-- TV Shows -->
+          <a href="https://t.me/+9rGVV2iXpvgzMTRl" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/tv.png" class="icon"> TV Shows
+          </a>
 
-		<!-- TV Shows -->
-		<a href="https://t.me/+9rGVV2iXpvgzMTRl" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/tv.png" class="icon"> TV Shows
-		</a>
-
-		<!-- Contact Us -->
-		<a href="https://t.me/MnTUploaderBot" target="_blank" 
-		   class="neon-btn w-full justify-center whitespace-nowrap">
-		  <img src="https://img.icons8.com/color/48/customer-support.png" class="icon"> Contact Us
-		</a>
-
-	  </div>
-	</div>
-
-
+          <!-- Contact Us -->
+          <a href="https://t.me/MnTUploaderBot" target="_blank" 
+             class="neon-btn w-full justify-center whitespace-nowrap">
+            <img src="https://img.icons8.com/color/48/customer-support.png" class="icon"> Contact Us
+          </a>
+        </div>
+      </div>
 
       <!-- Action Buttons -->
       <div class="flex justify-center items-center gap-4 mt-6 flex-wrap">
-        <button onclick="copyLink()" class="neon-btn">
+        <button id="shareBtn" class="neon-btn">
           <img src="https://img.icons8.com/color/48/share--v1.png" class="icon"> Share
         </button>
-       <!--  <button id="likeBtn" class="neon-btn">
-          <img src="https://img.icons8.com/color/48/facebook-like--v1.png" class="icon"> Like
-        </button> -->
         <a href="https://t.me/MnTUploaderBot" class="neon-btn">
           <img src="https://img.icons8.com/color/48/feedback.png" class="icon"> Report
         </a>
-        <!--<button class="neon-btn">
-          <img src="https://img.icons8.com/color/48/clock--v1.png" class="icon"> Watch Later
-        </button> -->
       </div>
-
     </div>
   </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
 
   <!-- Footer -->
   <footer>
@@ -264,62 +395,202 @@
   <!-- Scripts -->
   <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
   <script>
+    // Initialize Plyr player
     const player = new Plyr('#player', {
       controls: [
         'play-large', 'rewind', 'play', 'fast-forward',
         'progress', 'current-time', 'duration', 'mute',
         'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-      ]
+      ],
+      keyboard: { focused: true, global: true },
+      tooltips: { controls: true, seek: true }
     });
 
-    // Video title scroll after 20 sec
-    const videoTitle = document.getElementById('videoTitle');
-    setTimeout(() => {
+    // Toast notification function
+    function showToast(message, duration = 3000) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, duration);
+    }
+
+    // Video title scroll
+    function initTitleScroll() {
+      const videoTitle = document.getElementById('videoTitle');
       const containerWidth = videoTitle.parentElement.offsetWidth;
       const textWidth = videoTitle.scrollWidth;
-      const duration = (textWidth + containerWidth) / 50;
-      videoTitle.style.animationDuration = duration + 's';
-      videoTitle.classList.add('scroll-active');
-    }, 20000); // 20 seconds
-
-    // Download button
-    function lazyDownload() {
-      const video = document.querySelector('#player source');
-      const a = document.createElement('a');
-      a.href = video.src;
-      a.download = video.src.split('/').pop();
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      
+      // Only scroll if text is longer than container
+      if (textWidth > containerWidth) {
+        setTimeout(() => {
+          const duration = (textWidth + containerWidth) / 50;
+          videoTitle.style.animationDuration = duration + 's';
+          videoTitle.classList.add('scroll-active');
+        }, 20000); // 20 seconds
+      }
     }
+
+    // Initialize title scroll when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initTitleScroll);
+
+    // Download button with loading state
+    const downloadBtn = document.getElementById('downloadBtn');
+    const downloadText = document.getElementById('downloadText');
+    
+    downloadBtn.addEventListener('click', function() {
+      const video = document.querySelector('#player source');
+      if (!video || !video.src) {
+        showToast('Download source not available');
+        return;
+      }
+      
+      // Show loading state
+      const originalText = downloadText.textContent;
+      downloadText.innerHTML = '<span class="loading-spinner"></span> Downloading...';
+      downloadBtn.disabled = true;
+      
+      // Simulate download process
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.href = video.src;
+        a.download = video.src.split('/').pop() || 'video.mp4';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        // Reset button state
+        downloadText.textContent = originalText;
+        downloadBtn.disabled = false;
+        
+        showToast('Download started!');
+      }, 1000);
+    });
 
     // External players
     const videolink = window.location.href;
     const lazyLink = videolink.replace("/watch/", "/");
-    function vlc_player() { window.location.href = `vlc://${lazyLink}`; }
-    function mx_player() { window.location.href = `intent:${lazyLink}#Intent;package=com.mxtech.videoplayer.ad;end`; }
-    function playit_player() { window.location.href = `playit://playerv2/video?url=${lazyLink}`; }
-    function s_player() { window.location.href = `intent:${lazyLink}#Intent;action=com.young.simple.player.playback_online;package=com.young.simple.player;end`; }
-    function km_player() { window.location.href = `intent:${lazyLink}#Intent;package=com.kmplayer;end`; }
-    function hd_player() { window.location.href = `intent:${lazyLink}#Intent;package=uplayer.video.player;end`; }
+    
+    function vlc_player() { 
+      window.location.href = `vlc://${lazyLink}`; 
+      showToast('Opening in VLC Player...');
+    }
+    
+    function mx_player() { 
+      window.location.href = `intent:${lazyLink}#Intent;package=com.mxtech.videoplayer.ad;end`; 
+      showToast('Opening in MX Player...');
+    }
+    
+    function playit_player() { 
+      window.location.href = `playit://playerv2/video?url=${lazyLink}`; 
+      showToast('Opening in Playit Player...');
+    }
+    
+    function s_player() { 
+      window.location.href = `intent:${lazyLink}#Intent;action=com.young.simple.player.playback_online;package=com.young.simple.player;end`; 
+      showToast('Opening in S Player...');
+    }
+    
+    function km_player() { 
+      window.location.href = `intent:${lazyLink}#Intent;package=com.kmplayer;end`; 
+      showToast('Opening in KM Player...');
+    }
+    
+    function hd_player() { 
+      window.location.href = `intent:${lazyLink}#Intent;package=uplayer.video.player;end`; 
+      showToast('Opening in HD Player...');
+    }
 
     // Telegram dropdown
     const telegramBtn = document.getElementById('telegramBtn');
     const telegramDropdown = document.getElementById('telegramDropdown');
+    
     telegramBtn.addEventListener('click', () => {
       telegramDropdown.classList.toggle('hidden');
     });
 
-    // Share button
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!telegramBtn.contains(e.target) && !telegramDropdown.contains(e.target)) {
+        telegramDropdown.classList.add('hidden');
+      }
+    });
+
+    // Share button with multiple options
+    const shareBtn = document.getElementById('shareBtn');
+    
+    shareBtn.addEventListener('click', function() {
+      if (navigator.share) {
+        // Use Web Share API if available
+        navigator.share({
+          title: document.title,
+          url: window.location.href
+        })
+        .then(() => showToast('Link shared successfully!'))
+        .catch(err => {
+          console.error('Error sharing:', err);
+          copyLink();
+        });
+      } else {
+        // Fallback to copy to clipboard
+        copyLink();
+      }
+    });
+
+    // Copy link function
     function copyLink() {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => showToast('Link copied to clipboard!'))
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          showToast('Failed to copy link');
+        });
     }
 
-    // Like button
-    const likeBtn = document.getElementById('likeBtn');
-    likeBtn.addEventListener('click', () => {
-      alert('You liked this video!');
+    // Quality selector functionality (placeholder)
+    const qualityOptions = document.querySelectorAll('.quality-option');
+    qualityOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const quality = this.getAttribute('data-quality');
+        showToast(`Quality changed to ${quality}`);
+        // Here you would implement actual quality switching
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Space for play/pause
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        if (player.playing) {
+          player.pause();
+        } else {
+          player.play();
+        }
+      }
+      
+      // M for mute
+      if (e.code === 'KeyM' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        player.muted = !player.muted;
+      }
+      
+      // F for fullscreen
+      if (e.code === 'KeyF' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        player.fullscreen.toggle();
+      }
+    });
+
+    // Player event listeners
+    player.on('ready', () => {
+      console.log('Player is ready');
+    });
+
+    player.on('play', () => {
+      console.log('Video started playing');
     });
   </script>
 </body>
